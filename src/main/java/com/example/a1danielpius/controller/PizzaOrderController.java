@@ -32,7 +32,7 @@ public class PizzaOrderController {
         model.addAttribute("crusts", CrustType.values());
         model.addAttribute("toppings", Topping.values());
 
-        return "order-form";
+        return "orderform";
     }
     //Form Submission Mapping
     @PostMapping("/new")
@@ -59,13 +59,13 @@ public class PizzaOrderController {
 
         pizzaOrderService.addOrder(pizzaOrder);
         model.addAttribute("order", pizzaOrder);
-        return "order-summary";
+        return "ordersummary";
     }
     //order history mapping
     @GetMapping("/history")
     public String showOrderHistory(Model model) {
         model.addAttribute("orders", pizzaOrderService.getAllPizzaOrders());
-        return "order-history";
+        return "orderhistory";
     }
 
     //This is to help with error handiling
@@ -74,7 +74,7 @@ public class PizzaOrderController {
         model.addAttribute("sizes", PizzaSize.values());
         model.addAttribute("crusts", CrustType.values());
         model.addAttribute("toppings", Topping.values());
-        return "order-form";
+        return "orderform";
     }
 }
 

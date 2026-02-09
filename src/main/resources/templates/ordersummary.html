@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Order Summary - DP</title>
+    <!--    Bootstrap implementation-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <h1 class="mb-4">Order Summary</h1>
+
+    <table class="table table-bordered bg-white">
+        <tr>
+            <th>Customer Name</th>
+            <td th:text="${order.customerName}"></td>
+        </tr>
+        <tr>
+            <th>Size</th>
+            <td th:text="${order.size}"></td>
+        </tr>
+        <tr>
+            <th>Crust</th>
+            <td th:text="${order.crust}"></td>
+        </tr>
+        <tr>
+            <th>Toppings</th>
+            <td>
+                <span th:each="t : ${order.toppings}" th:text="${t}" th:unless="${t == null}"></span>
+                <span th:if="${!#lists.isEmpty(order.toppings)}">, </span>
+            </td>
+        </tr>
+        <tr>
+            <th>Quantity</th>
+            <td th:text="${order.quantity}"></td>
+        </tr>
+        <tr>
+            <th>Delivery</th>
+            <td th:text="${order.delivery ? 'Yes' : 'No'}"></td>
+        </tr>
+        <tr th:if="${order.delivery}">
+            <th>Delivery Address</th>
+            <td th:text="${order.deliveryAddress}"></td>
+        </tr>
+        <tr>
+            <th>Subtotal</th>
+            <td th:text="${order.subtotal}"></td>
+        </tr>
+        <tr>
+            <th>Discount</th>
+            <td th:text="${order.discountAmount}"></td>
+        </tr>
+        <tr>
+            <th>Tax</th>
+            <td th:text="${order.tax}"></td>
+        </tr>
+        <tr>
+            <th>Total</th>
+            <td th:text="${order.total}"></td>
+        </tr>
+    </table>
+
+    <!--        Hyperlinks to pages-->
+    <a href="/orders/new" class="btn btn-secondary">Place Another Order</a>
+    <a href="/orders/history" class="btn btn-info text-white">View Order History</a>
+</div>
+
+</body >
+</html>
