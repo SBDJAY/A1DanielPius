@@ -1,12 +1,14 @@
 package com.example.a1danielpius.data;
 
-
+//import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class PizzaOrder {
 
-    private int id;
+    private Long id;
+
+
     private String customerName;
     private int quantity;
 
@@ -33,10 +35,10 @@ public class PizzaOrder {
 
     //Getters and Setters
     //ID
-    public int getId() {
+    public long getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
     //----------------------------------------------------
@@ -137,23 +139,3 @@ public class PizzaOrder {
     }
 }
 
-enum PizzaSize {
-    SMALL,
-    MEDIUM,
-    LARGE
-}
-
-enum CrustType {
-    THIN,
-    REGULAR,
-    THICK
-}
-
-enum Topping {
-    PEPERONI,
-    CHEESE,
-    BEEF,
-    BACON,
-    MUSHROOMS,
-    OLIVES
-}
