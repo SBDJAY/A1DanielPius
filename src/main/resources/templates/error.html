@@ -1,15 +1,42 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!--AI WAS USED HERE TO PROVIDE FIX TO WHITELABEL-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Error</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
+
 <div class="container mt-5">
-  <h2 class="text-danger">Oops! Something went wrong.</h2>
-  <p th:text="${status} + ' - ' + ${error}"></p>
-  <a href="/orders/new" class="btn btn-primary">Go Back</a>
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h1 class="text-danger mb-3">Something went wrong</h1>
+
+      <p class="mb-1">
+        <strong>Status:</strong>
+        <span th:text="${status}">500</span>
+      </p>
+
+      <p class="mb-1">
+        <strong>Error:</strong>
+        <span th:text="${error}">Internal Server Error</span>
+      </p>
+
+      <p class="mb-1">
+        <strong>Message:</strong>
+        <span th:text="${message}">Unexpected error</span>
+      </p>
+
+      <p class="mb-3">
+        <strong>Path:</strong>
+        <span th:text="${path}">/unknown</span>
+      </p>
+
+      <a class="btn btn-primary" th:href="@{/orders/new}">Back to Order Form</a>
+    </div>
+  </div>
 </div>
+
 </body>
 </html>

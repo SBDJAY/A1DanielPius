@@ -1,5 +1,5 @@
+//<!--AI WAS USED HERE TO PROVIDE FIX TO WHITELABEL-->
 package com.example.a1danielpius.controller;
-
 import com.example.a1danielpius.data.CrustType;
 import com.example.a1danielpius.data.PizzaOrder;
 import com.example.a1danielpius.data.PizzaSize;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 @Controller
 @RequestMapping("/order")
 public class PizzaOrderController {
@@ -24,57 +23,65 @@ public class PizzaOrderController {
         this.pizzaOrderService = pizzaOrderService;
     }
 
-    //Made Orders mapping
+    // These will ALWAYS be available in the model
+    @ModelAttribute("sizes")
+    public PizzaSize[] sizes() {
+        return PizzaSize.values();
+    }
+
+    @ModelAttribute("crusts")
+    public CrustType[] crusts() {
+        return CrustType.values();
+    }
+
+    @ModelAttribute("toppings")
+    public Topping[] toppings() {
+        return Topping.values();
+    }
+
+    // Show form
     @GetMapping("/new")
     public String showOrders(Model model) {
-        model.addAttribute("pizzaOrders", new PizzaOrder());
-        model.addAttribute("sizes", PizzaSize.values());
-        model.addAttribute("crusts", CrustType.values());
-        model.addAttribute("toppings", Topping.values());
-
+        model.addAttribute("pizzaOrder", new PizzaOrder()); // FIXED
         return "orderform";
     }
-    //Form Submission Mapping
+
+    // Submit form
     @PostMapping("/new")
-    public String submitOrders(
-             @ModelAttribute ("pizzaOrder") PizzaOrder pizzaOrder, Model model ) {
-        //Customer Name field handler
+    public String submitOrders(@ModelAttribute("pizzaOrder") PizzaOrder pizzaOrder, Model model) {
+
+        // Customer Name field handler
         if (pizzaOrder.getCustomerName() == null || pizzaOrder.getCustomerName().trim().isEmpty()) {
             model.addAttribute("error", "Customer name is required");
-            return reloadForm(model, pizzaOrder);
+            return "orderform";
         }
-        //Pizza Quantity handler
+
+        // Pizza Quantity handler
         if (pizzaOrder.getQuantity() < 1 || pizzaOrder.getQuantity() > 10) {
             model.addAttribute("error", "Quantity must be between 1 and 10");
-            return reloadForm(model, pizzaOrder);
+            return "orderform";
         }
-        //Deliverry Field empty handler
+
+        // Delivery Address handler
         if (pizzaOrder.isDelivery() &&
                 (pizzaOrder.getDeliveryAddress() == null ||
                         pizzaOrder.getDeliveryAddress().trim().isEmpty())) {
 
             model.addAttribute("error", "Delivery address is required for delivery orders");
-            return reloadForm(model, pizzaOrder);
+            return "orderform";
         }
 
         pizzaOrderService.addOrder(pizzaOrder);
         model.addAttribute("order", pizzaOrder);
+
         return "ordersummary";
     }
-    //order history mapping
+
+    // Order history mapping
     @GetMapping("/history")
     public String showOrderHistory(Model model) {
         model.addAttribute("orders", pizzaOrderService.getAllPizzaOrders());
         return "orderhistory";
-    }
-
-    //This is to help with error handiling
-    private String reloadForm(Model model, PizzaOrder pizzaOrder) {
-        model.addAttribute("pizzaOrder", pizzaOrder);
-        model.addAttribute("sizes", PizzaSize.values());
-        model.addAttribute("crusts", CrustType.values());
-        model.addAttribute("toppings", Topping.values());
-        return "orderform";
     }
 }
 
